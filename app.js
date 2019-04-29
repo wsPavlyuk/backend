@@ -30,15 +30,21 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 const apiRouter = require('./routes/index');
+app.use((req, res, next) => {
+  res.append('Access-Control-Allow-Origin', ['*']);
+  res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 app.use('/api', apiRouter);
 
 //for header's response 
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', '*');
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.append('Access-Control-Allow-Origin', '*');
+//   res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+//   next();
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,4 +1,5 @@
 const UserService = require('../services/users.service');
+const { getHash } = require('../utilities');
 
 const getUsers = (req, res) => {
   console.log('get users in controller')
@@ -15,17 +16,20 @@ const getUsers = (req, res) => {
 const createUser = async (req, res) => {
 
     try {
-        //const findUser = await UserService.getUsers({email: req.body.email})
-        // if(findUser[0] && findUser[0].id) {
-           // throw new Error('This user exists')
-        //}
+        const findUser = await UserService.getUsers({email: req.body.email});
+        console.log('gatcha!!!', findUser);
+        if (findUser[0] && findUser[0].email && findUser[0]._id) {
+            throw new Error('This user exists');
+        }
 
         // hash password (use module bcrypt)
+        req.body.password = await getHash(req.body.password);
 
-        const newUser = await UserService.createUser(req.body)
-        res.status(200).send(newUser)
+        const newUser = await UserService.createUser(req.body);
+        res.status(200).send(newUser);
     } catch (err) {
-        res.status(500).send(err)
+        console.log('Finish', err);
+        res.status(500).send(err);
     }
 }
 
