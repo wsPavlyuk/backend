@@ -4,7 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var cors = require('cors')
 var app = express();
+
+app.options('*', cors())
 
 mongoose.connect('mongodb://localhost/Weather', {useNewUrlParser: true});
 
@@ -30,6 +33,13 @@ const apiRouter = require('./routes/index');
 
 app.use('/api', apiRouter);
 
+//for header's response 
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
+  next();
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -46,8 +56,8 @@ app.use(function(err, req, res, next) {
   res.send('error');
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.listen(5000, function () {
+  console.log('Example app listening on port 5000!');
 });
 
 // module.exports = app;
