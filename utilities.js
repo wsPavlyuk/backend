@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 8;
 
+const jwt = require('jsonwebtoken');
+const privateKey = '345big12';
+
 
 const getHash = (password) => {
     return new Promise((resolve, reject) => {
@@ -32,7 +35,22 @@ const compareHash = (password, hash) => {
 }
 
 
+const getJWT = (userId) => {
+    return new Promise((resolve, reject) => {
+        jwt.sign ({ userId }, privateKey, { algorithm: 'HS256' }, (err, res) => {
+            if (err) {
+                console.log('getJWT service err', err)
+                reject(err)
+            } else {
+                //return true or false
+                resolve(res);
+            }
+        })
+    })
+}
+
   module.exports = { 
       getHash,
-      compareHash 
+      compareHash,
+      getJWT
     };

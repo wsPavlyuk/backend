@@ -7,7 +7,7 @@ const userRouter = (router) => {
     // /* GET users listing. */
     router.get('/users', UsersController.getUsers);
     router.post('/users/create', UsersController.createUser);
-    router.post('/users', UsersController.userAccess);
+    router.post('/users', UsersController.loginUser);
 
 }
 
