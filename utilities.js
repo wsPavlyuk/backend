@@ -49,8 +49,22 @@ const getJWT = (userId) => {
     })
 }
 
+const checkJWT = (token) => {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, privateKey, (err, decoded) => {
+            if (err) {
+                console.log('checkJWT service err', err)
+                reject(err)
+            } else {
+                resolve(decoded.userId);
+            }
+        })
+    })
+}
+
   module.exports = { 
       getHash,
       compareHash,
-      getJWT
+      getJWT,
+      checkJWT
     };

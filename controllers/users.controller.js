@@ -1,5 +1,5 @@
 const UserService = require('../services/users.service');
-const { getHash, compareHash, getJWT } = require('../utilities');
+const { getHash, compareHash, getJWT, checkJWT } = require('../utilities');
 
 const getUsers = (req, res) => {
   console.log('get users in controller')
@@ -47,8 +47,8 @@ const loginUser = async (req, res) => {
                 
                 // create jwt
                 var token = await getJWT(findUser[0]._id);
-                // console.log(token);
-                res.status(200).send(token);
+                // res.status(200).send( findUser[0].email);
+                res.status(200).send({token: token, email: findUser[0].email});
 
             } else {                
                 throw new Error('This user doesn`t exist or wrong password');
@@ -59,12 +59,36 @@ const loginUser = async (req, res) => {
 
     } catch (err) {
         console.log('Not found!', err);
-        res.status(500).send(err);
+        res.status(500).send({error: 'This user doesn`t exist or wrong password'});
+    }
+}
+
+
+const checkUser = async (req, res) => {
+    console.log("Checking");
+    console.log(req.headers.authorization);
+
+    try {
+        var checking = await checkJWT(req.headers.authorization);
+
+        const findUser = await UserService.getUsers({_id: checking});
+        console.log('Found!!!', findUser);
+        if (findUser[0] && findUser[0]._id) {
+            console.log('Alright amigo! I know you!');
+            res.status(200).send('Alright amigo! I know you!');
+        } else {
+            throw new Error('This user doesn`t exist or wrong password');
+        }
+
+    } catch (err) {
+        console.log('Not found!', err);
+        res.status(500).send({error: 'This user doesn`t exist or wrong password'});
     }
 }
 
 module.exports = {
     getUsers,
     createUser,
-    loginUser
+    loginUser,
+    checkUser
 }

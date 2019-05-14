@@ -9,7 +9,7 @@ const getUsers = (param) => {
                 console.log('getUsers service err', err)
                 reject(err)
             } else {
-                console.log('usera',users);
+                console.log('users',users);
                 resolve(users)
 
             }
