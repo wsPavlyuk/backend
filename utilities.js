@@ -36,6 +36,7 @@ const compareHash = (password, hash) => {
 
 
 const getJWT = (userId) => {
+    console.log('getjwt userId', userId)
     return new Promise((resolve, reject) => {
         jwt.sign ({ userId }, privateKey, { algorithm: 'HS256' }, (err, res) => {
             if (err) {
@@ -43,6 +44,7 @@ const getJWT = (userId) => {
                 reject(err)
             } else {
                 //return true or false
+                console.log('token', res)
                 resolve(res);
             }
         })
@@ -50,12 +52,14 @@ const getJWT = (userId) => {
 }
 
 const checkJWT = (token) => {
+    console.log('check token', token)
     return new Promise((resolve, reject) => {
         jwt.verify(token, privateKey, (err, decoded) => {
             if (err) {
                 console.log('checkJWT service err', err)
                 reject(err)
             } else {
+                console.log('Decoded',decoded);
                 resolve(decoded.userId);
             }
         })
