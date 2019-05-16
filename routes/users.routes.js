@@ -4,7 +4,7 @@ const UsersController = require('../controllers/users.controller');
 const checkUser = require('../middlewares/auth.middleware');
 
 const userRouter = (router) => {
-    console.log('router user')
+    // // console.log('router user')
 
     // /* GET users listing. */
     router.get('/users', checkUser, UsersController.getUsers);
@@ -12,6 +12,7 @@ const userRouter = (router) => {
     router.post('/users/create', UsersController.createUser);
     router.post('/users', UsersController.loginUser);
     router.get('/histories', checkUser, historiesController.getHistories);
+    router.get('/histories/:id', checkUser, historiesController.getHistoryDetails);
     router.post('/histories/create', checkUser, historiesController.createHistory);
 
 }

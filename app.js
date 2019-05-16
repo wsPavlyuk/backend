@@ -15,7 +15,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-  console.log('connected');
+  // // console.log('connected');
 });
 
 
@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(5000, function () {
-  console.log('Example app listening on port 5000!');
+  // // console.log('Example app listening on port 5000!');
 });
 
 // module.exports = app;

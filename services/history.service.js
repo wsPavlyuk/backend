@@ -2,29 +2,45 @@ var HistoryModel = require('../config/models/history.model')
 
 const createHistory = (data) => {
     return new Promise((resolve, reject) => {
-        // console.log('createHistory', data)
+        // // // console.log('createHistory', data)
         HistoryModel.create(data, (err, newNote) => {
             if (err) {
-                console.log('createHistory service err', err)
+                // // console.log('createHistory service err', err)
                 reject(err)
             } else {
-                console.log('createHistory service', newNote)
+                // // console.log('createHistory service', newNote)
                 resolve(newNote)
             }
         })
     })
 }
 
-const getHistory = () => {
-    console.log('getHistory started');
+const getHistory = (param, fields) => {
+    // // console.log('getHistory started');
 
     return new Promise((resolve, reject) => {
-        HistoryModel.find({}, (err, history) => {
+        HistoryModel.find(param, fields,  (err, history) => {
             if (err) {
-                console.log('getHistory service err', err)
+                // // console.log('getHistory service err', err)
                 reject(err)
             } else {
-                console.log('history',history);
+                // // console.log('history',history);
+                resolve(history)
+            }
+        })
+    })
+}
+
+const historyDetails = (id) => {
+    // console.log('getHistoryDetails started');
+
+    return new Promise((resolve, reject) => {
+        HistoryModel.find(id, (err, history) => {
+            if (err) {
+                // console.log('getHistoryDetails service err', err)
+                reject(err)
+            } else {
+                // console.log('getHistoryDetails',history);
                 resolve(history)
             }
         })
@@ -34,5 +50,6 @@ const getHistory = () => {
 
 module.exports = {
     createHistory,
-    getHistory
+    getHistory,
+    historyDetails
 }
